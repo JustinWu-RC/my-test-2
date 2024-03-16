@@ -6,17 +6,19 @@ rfs = RemoteFileSystem.load("prefect-bucket")
 
 @task(log_prints=True)
 def test_task():
+    print("test_task")
     print(rfs.read_path("CallNote Dataset - 40 - Sheet1.csv"))
 
 
 @flow(log_prints=True)
 def test_flow():
+    print("test_flow")
     test_task()
 
 
 if __name__ == "__main__":
     test_flow.from_source(
-        source=rfs,
+        source='https://github.com/JustinWu-RC/my-test-2.git',
         entrypoint="test.py:test_flow"
     ).deploy(
         name="test s3 storage 2",
